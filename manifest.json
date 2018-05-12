@@ -1,0 +1,26 @@
+{
+
+  "manifest_version": 2,
+  "name": "Mailto",
+  "version": "1.0",
+
+  "description": "One click to open your mail client with the current tab's URL in a new message",
+
+  "permissions": ["activeTab"],
+
+  "icons": {
+    "24": "icons/mail.svg",
+    "48": "icons/mail.svg",
+    "96": "icons/mail.svg"
+  },
+
+  "background": {
+    "scripts": ["sendoff.js"]
+  },
+
+  "browser_action": {
+    "default_icon": "icons/mail.svg",
+    "default_title": "MailTo"
+  }
+
+}
