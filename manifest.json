@@ -1,12 +1,23 @@
 {
 
   "manifest_version": 2,
-  "name": "Mailto",
+  "name": "MailTo",
   "version": "1.0",
 
   "description": "One click to open your mail client with the current tab's URL in a new message",
 
-  "permissions": ["activeTab"],
+  "applications": {
+    "gecko": {
+      "id": "mailto-web-extension@Anthropohedron.github.com"
+    }
+  },
+
+  "permissions": ["storage", "activeTab"],
+
+  "options_ui": {
+    "page": "options.html",
+    "browser_style": true
+  },
 
   "icons": {
     "24": "icons/mail.svg",

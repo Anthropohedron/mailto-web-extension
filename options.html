@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<title>MailTo Options</title>
+</head><body>
+<div style="padding:2em">These are used as templates for the email subject and content (body),
+	respectively. Either can include <code>{url}</code> and/or
+	<code>{title}</code> for the current tab's URL and title,
+	respectively.</div>
+<form>
+	<fieldset><legend>Email Template</legend>
+	<label for="subject">Subject:</label>
+	<input type="text" required="required" id="subject">
+	<br/>
+	<label for="content">Content:</label>
+	<textarea required="required" rows="4" cols="40" id="content"></textarea>
+	</fieldset>
+	<br/>
+	<button type="submit">Save</button>
+</form>
+<script src="options.js"></script>
+</body></html>
