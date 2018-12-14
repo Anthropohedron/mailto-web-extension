@@ -23,4 +23,13 @@ function openMail(activeTab) {
   }
 }
 
-browser.browserAction.onClicked.addListener(openMail);
+browser.storage.sync.get([ 'recipients' ]).then(function(res) {
+  if (res.recipients) {
+    var url = '/popup.html';
+    browser.browserAction.setPopup({
+      popup: url
+    });
+  } else {
+    browser.browserAction.onClicked.addListener(openMail);
+  }
+});
