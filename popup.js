@@ -22,7 +22,7 @@ function launchUrl(subject, content, page_url, page_title, recipient) {
 
 function openMailWithRecipient(e) {
   browser.tabs.query({currentWindow: true, active: true}).then(function(tabs) {
-    var recipient = e.target.innerHTML;
+    var recipient = e.target.innerText;
     browser.storage.sync.get([ 'subject', 'content' ]).then(function(res) {
       launchUrl(res.subject, res.content, tabs[0].url, tabs[0].title, recipient);
     });
