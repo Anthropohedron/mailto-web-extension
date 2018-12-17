@@ -36,9 +36,9 @@ function setPopupRecipients() {
       var node = document.createElement('button');
       var nodeText = document.createTextNode(res.recipients[i]);
       node.appendChild(nodeText);
+      node.addEventListener('click', openMailWithRecipient, false);
       ul.appendChild(node);
     }
-    ul.addEventListener('click', openMailWithRecipient, false);
   });
 }
 
