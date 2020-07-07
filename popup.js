@@ -21,21 +21,19 @@ function openMailWithRecipient(e) {
 
 function createCheckboxes(recipients) {
   var ul = document.querySelector("#recipients");
-  recipients.forEach((r, i) => {
+  recipients.forEach((recipient, i) => {
     var node = document.createElement("li");
     var id = "recip" + i;
-    var recipient = htmlEscape(r.trim());
-    node.innerHTML = [
-      '<input name="recipient" type="checkbox" id="',
-      id,
-      '" value="',
-      recipient,
-      '" /><label for="',
-      id,
-      '">',
-      recipient,
-      '</label>'
-    ].join("");
+    var subnode = document.createElement("input");
+    subnode.setAttribute("name", "recipient");
+    subnode.setAttribute("type", "checkbox");
+    subnode.setAttribute("value", recipient);
+    subnode.id = id;
+    node.appendChild(subnode);
+    subnode = document.createElement("label");
+    subnode.setAttribute("for", id);
+    subnode.innerText = recipient;
+    node.appendChild(subnode);
     ul.appendChild(node);
   });
 }

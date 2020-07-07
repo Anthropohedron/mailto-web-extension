@@ -41,15 +41,3 @@ function getThisTab() {
   })
 }
 
-var unsafeRE = /([&<>"'])/g;
-var toEntity = substitute.bind({
-  '&': '&amp;',
-  '<': '&lt;',
-  '>': '&gt;',
-  '"': '&quot;',
-  "'": '&#039;'
-});
-function htmlEscape(str) {
-  return str.replace(unsafeRE, toEntity);
-}
-
