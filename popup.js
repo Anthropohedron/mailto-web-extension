@@ -1,45 +1,51 @@
-function substitute(match, prop) { return this[prop]; }
-var defaultSubject = "FYI: {title}";
-var defaultContent = "Interesting: {url}";
-var tmplRegex = /{([a-zA-Z_]+)}/g;
 
-function launchUrl(subject, content, page_url, page_title, recipient) {
-  var sub = substitute.bind({ url: page_url, title: page_title });
-  subject = (subject || defaultSubject).replace(tmplRegex, sub);
-  content = (content || defaultContent).replace(tmplRegex, sub);
-  var mailto_url = [
-    "mailto:",
-    encodeURIComponent(recipient),
-    "?subject=",
-    encodeURIComponent(subject),
-    "&body=",
-    encodeURIComponent(content),
-  ].join('');
-  browser.tabs.update({
-    url: mailto_url
+function launchWithTab(subject, content, recipients) {
+  getThisTab().then(tabs => {
+    var tab = tabs[0];
+    launchUrl(subject, content, tab.url, tab.title,
+      recipients);
   });
 }
 
 function openMailWithRecipient(e) {
-  browser.tabs.query({currentWindow: true, active: true}).then(function(tabs) {
-    var recipient = e.target.innerText;
-    browser.storage.sync.get([ 'subject', 'content' ]).then(function(res) {
-      launchUrl(res.subject, res.content, tabs[0].url, tabs[0].title, recipient);
-    });
+  e.preventDefault();
+  var checkboxes = document.querySelectorAll("#recipients input");
+  var recipients = Array.prototype
+    .filter.call(checkboxes, c => c.checked)
+    .map(c => c.value.trim())
+    .join(',');
+  getPrefs().then(res => {
+    launchWithTab(res.subject, res.content, recipients);
   });
 }
 
-function setPopupRecipients() {
-  browser.storage.sync.get([ 'recipients' ]).then(function(res) {
-    var ul = document.querySelector("#recipients");
-    for (var i = 0; i < res.recipients.length; i++) {
-      var node = document.createElement('button');
-      var nodeText = document.createTextNode(res.recipients[i]);
-      node.appendChild(nodeText);
-      node.addEventListener('click', openMailWithRecipient, false);
-      ul.appendChild(node);
-    }
+function createCheckboxes(recipients) {
+  var ul = document.querySelector("#recipients");
+  recipients.forEach((r, i) => {
+    var node = document.createElement("li");
+    var id = "recip" + i;
+    var recipient = htmlEscape(r.trim());
+    node.innerHTML = [
+      '<input name="recipient" type="checkbox" id="',
+      id,
+      '" value="',
+      recipient,
+      '" /><label for="',
+      id,
+      '">',
+      recipient,
+      '</label>'
+    ].join("");
+    ul.appendChild(node);
   });
 }
 
-setPopupRecipients();
+getPrefs().then(res => {
+  if (!(res.recipients && res.recipients.length)) {
+    launchWithTab(res.subject, res.content);
+  }
+  var form = document.querySelector("form");
+  form.addEventListener('submit', openMailWithRecipient);
+  createCheckboxes(res.recipients);
+});
+

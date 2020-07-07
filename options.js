@@ -1,11 +1,13 @@
-var defaultSubject = "FYI: {title}";
-var defaultContent = "Interesting: {url}";
-
 function saveOptions(e) {
+  var recipients =
+    document.querySelector("#recipients").value.trim();
+  var recipList = recipients ?
+    recipients.split("\n").map(r => r.trim()) :
+    [];
   browser.storage.sync.set({
     subject: document.querySelector("#subject").value,
     content: document.querySelector("#content").value,
-    recipients: document.querySelector("#recipients").value.split("\n"),
+    recipients: recipList
   });
   e.preventDefault();
 }

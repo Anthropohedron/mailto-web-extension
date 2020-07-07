@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<script src="shared.js" type="application/javascript">
+		</script>
 		<meta charset="utf-8">
 		<title>MailTo Recipients</title>
 		<style>
-			#recipients button {
-				display: block;
+			#recipients {
+				list-style: none;
 			}
 		</style>
 	</head>
 	<body>
-		Choose the recipient:
-		<div id="recipients">
-		</div>
+		Choose recipient(s):
+		<form action="#" method="GET">
+			<ul id="recipients">
+			</ul>
+			<input id="submit" diasbled="disabled" type="submit" value="Open Mail">
+		</form>
 		<script src="popup.js"></script>
 	</body>
 </html>
